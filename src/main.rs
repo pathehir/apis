@@ -2,8 +2,6 @@ use std::env;
 
 use anyhow::Result;
 
-mod xkcd;
-
 fn main() -> Result<()> {
     let args: Vec<String> = env::args().collect();
 
@@ -12,7 +10,7 @@ fn main() -> Result<()> {
             "xkcd" => xkcd(args)?,
             _ => help()
         },
-        None => eprintln!("")
+        None => eprintln!("please specify api source or help")
     };
 
     Ok(())
@@ -23,7 +21,7 @@ fn help() {
 }
 
 fn xkcd(args: Vec<String>) -> Result<()> {
-    use xkcd::Xkcd;
+    use apis::Xkcd;
 
     let body = match args.get(2) {
         Some(n) => Xkcd::get(n.parse()?)?,
