@@ -14,7 +14,7 @@ impl Score {
 }
 
 #[derive(Deserialize)]
-struct Scores {
+pub struct Scores {
     all_time: Vec<Score>,
     past_24hours: Vec<Score>,
     past_week: Vec<Score>,
