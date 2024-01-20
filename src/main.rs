@@ -23,11 +23,11 @@ fn help() {
 }
 
 fn xkcd(args: Vec<String>) -> Result<()> {
-    use apis::Xkcd;
+    use apis::xkcd::Comic;
 
     let body = match args.get(2) {
-        Some(n) => Xkcd::get(n.parse()?)?,
-        None => Xkcd::get_latest()?,
+        Some(n) => Comic::get(Some(n.parse()?))?,
+        None => Comic::get(None)?,
     };
 
     println!("xkcd {} - Published {}-{}-{}\n\n{}\n\n\n{}\n\n\nalt: {}\n\n\nimage url: {}", body.num, body.year, body.month, body.day, body.safe_title, body.transcript, body.alt, body.img);
@@ -38,11 +38,20 @@ fn xkcd(args: Vec<String>) -> Result<()> {
 fn bb(args: Vec<String>) -> Result<()> {
     use apis::breakingbad::Quote;
 
-    let quotes = Quote::get(args.get(2).map(|n| n.parse().unwrap()))?;
+    let arg: Option<u32> = match args.get(2) {
+        Some(a) => Some(a.parse()?),
+        None => None,
+    };
+
+    let quotes = Quote::get(arg)?;
 
     for quote in quotes {
         println!("\"{}\" - {}", quote.quote(), quote.author());
     }
 
     Ok(())
+}
+
+fn nr(args: Vec<String>) -> Result<()> {
+    todo!()
 }

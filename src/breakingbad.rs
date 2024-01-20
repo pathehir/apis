@@ -11,6 +11,9 @@ impl Quote {
     pub fn author(&self) -> &str { &self.author }
 
     pub fn get(num: Option<u32>) -> anyhow::Result<Vec<Quote>> {
-        Ok(ureq::get(format!("https://api.breakingbadquotes.xyz/v1/quotes/{}", num.unwrap_or(1)).as_str()).call()?.into_json()?)
+        match num {
+            Some(n) => Ok(ureq::get(format!("https://api.breakingbadquotes.xyz/v1/quotes/{n}").as_str()).call()?.into_json()?),
+            None => Ok(ureq::get("https://api.breakingbadquotes.xyz/v1/quotes").call()?.into_json()?)
+        }
     }
 }
