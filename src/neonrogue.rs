@@ -21,7 +21,7 @@ struct Scores {
     past_30days: Vec<Score>
 }
 
-enum ScoreList {
+pub enum ScoreList {
     AllTime,
     Past24Hours,
     PastWeek,
