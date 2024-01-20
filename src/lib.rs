@@ -1,4 +1,4 @@
 mod xkcd;
 pub use xkcd::Xkcd;
 
-mod breakingbad;
+pub mod breakingbad;
