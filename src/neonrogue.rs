@@ -1,4 +1,5 @@
 use serde::Deserialize;
+use crate::Result;
 
 #[derive(Deserialize)]
 pub struct Score {
@@ -28,13 +29,8 @@ pub enum ScoreList {
     Past30Days,
 }
 
-enum ListType {
-    All(Scores),
-    One(Vec<Score>),
-}
-
 impl Scores {
-    pub fn get(list: ScoreList) -> anyhow::Result<Vec<Score>> {
+    pub fn get(list: ScoreList) -> Result<Vec<Score>> {
         let lists: Scores = ureq::get("https://highscores.neonrogue.net/scores").call()?.into_json()?;
 
         Ok(match list {
