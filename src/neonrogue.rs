@@ -3,15 +3,9 @@ use crate::Result;
 
 #[derive(Deserialize)]
 pub struct Score {
-    score: i32,
-    name: String,
-    timestamp: i64
-}
-
-impl Score {
-    pub fn score(&self) -> i32 { self.score }
-    pub fn name(&self) -> &str { &self.name }
-    pub fn timestamp(&self) -> i64 { self.timestamp }
+    pub score: i32,
+    pub name: String,
+    pub timestamp: i64
 }
 
 #[derive(Deserialize)]
@@ -33,11 +27,15 @@ impl Scores {
     pub fn get(list: ScoreList) -> Result<Vec<Score>> {
         let lists: Scores = ureq::get("https://highscores.neonrogue.net/scores").call()?.into_json()?;
 
-        Ok(match list {
+        let l = match list {
             ScoreList::AllTime => lists.all_time,
             ScoreList::Past24Hours => lists.past_24hours,
             ScoreList::PastWeek => lists.past_week,
             ScoreList::Past30Days => lists.past_30days,
-        })
+        };
+
+        log::info!("successfully recieved neonrogue scores.");
+
+        Ok(l)
     }
 }
